@@ -1,0 +1,52 @@
+﻿<Page
+    x:Class="IOU.about"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:IOU"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="IOU" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Text="getting around" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+        </StackPanel>
+
+        <!--TODO: Content should be placed within the following grid-->
+        
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <ScrollViewer>
+            <StackPanel Orientation="Vertical">
+                    <StackPanel>
+                        <TextBlock FontSize="19" TextWrapping="WrapWholeWords">IOU is a super simple app to keep a tab on all the people that you owe money to.</TextBlock>
+                        <TextBlock FontSize="25" TextWrapping="WrapWholeWords" Margin="0,20,0,0" FontWeight="Bold" >To begin</TextBlock>
+                        <TextBlock FontSize="22" TextWrapping="WrapWholeWords" Margin="0,10,0,0">Just hit the + button at the bottom to create a new entry.</TextBlock>
+                        <TextBlock FontSize="22" TextWrapping="WrapWholeWords" Margin="0,7,0,0"><Bold>If you're asked to select a phone number, you can choose any one. It doesn't matter and isn't used.</Bold></TextBlock>
+                        <TextBlock FontSize="25" TextWrapping="WrapWholeWords" Margin="0,20,0,0" FontWeight="Bold" >To add</TextBlock>
+                        <TextBlock FontSize="22" TextWrapping="WrapWholeWords" Margin="0,10,0,0">If you're adding to an existing person, just create the new debt as usual. IOU will add the new amount to the existing one.</TextBlock>
+                        <TextBlock FontSize="25" TextWrapping="WrapWholeWords" Margin="0,20,0,0" FontWeight="Bold" >To remove</TextBlock>
+                        <TextBlock FontSize="22" TextWrapping="WrapWholeWords" Margin="0,10,0,20">Tap the clear button next to the amount, to wipe away a debt once you've payed the person back.</TextBlock>
+                    </StackPanel>
+            </StackPanel>
+            
+            </ScrollViewer>
+        </Grid>
+       
+    </Grid>
+</Page>
+

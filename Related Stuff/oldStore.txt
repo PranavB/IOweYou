@@ -1,0 +1,94 @@
+        public async Task isFilePresent()
+        {
+            var item = await ApplicationData.Current.LocalFolder.GetItemAsync("stojrage.json");
+            if (item == null)
+                return;
+            else
+            {
+                oldStore os = new oldStore();
+                os.attemptRestore();
+            }
+
+        }
+
+_________________________________________________________________________________________
+
+
+public class oldStore
+    {
+        public string name { get; set; }
+        public double amount { get; set; }
+        private ObservableCollection<oldStore> _oldDebts;
+        private ObservableCollection<Store> _newDebts;
+        const string jsonFile = "storage.json";
+
+        Store st;
+
+        public oldStore()
+        {
+            _oldDebts = new ObservableCollection<oldStore>();
+            _newDebts = new ObservableCollection<Store>();
+            st = new Store();
+        }
+
+        public async void attemptRestore()
+        {
+            await attemptRead();
+            await storeNewJSON();
+        }
+
+        public async Task attemptRead()
+        {
+            if (_oldDebts == null) return;
+            var oldJsonSerializer = new DataContractJsonSerializer(typeof(ObservableCollection<oldStore>));
+
+            try
+            {
+                
+
+                using (var stream = await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync(jsonFile))
+                {
+                    _oldDebts = (ObservableCollection<oldStore>)oldJsonSerializer.ReadObject(stream);
+                    await ApplicationData.Current.LocalFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Whoops: {0}", e);
+            }
+
+            int i = 0;
+            string currency = GlobalizationPreferences.Currencies[0];
+            StringBuilder amountAsCurrency = new StringBuilder();
+            CurrencyFormatter defaultCurrencyFormatter = new CurrencyFormatter(currency);
+            defaultCurrencyFormatter.IsGrouped = true;
+
+            foreach (oldStore item in _oldDebts)
+            {
+                st.id = i++;
+                st.name = item.name;
+                st.amount = item.amount;
+                amountAsCurrency.AppendLine(defaultCurrencyFormatter.Format(st.amount));
+                st.currency = amountAsCurrency.ToString();
+                amountAsCurrency.Clear();
+                _newDebts.Add(st);
+            }
+        }
+
+        private async Task storeNewJSON()
+        {
+            var jsonSerializer = new DataContractJsonSerializer(typeof(ObservableCollection<Store>));
+            try
+            {
+                using (var stream = await ApplicationData.Current.LocalFolder.OpenStreamForWriteAsync("ioufile.json",
+                    CreationCollisionOption.ReplaceExisting))
+                {
+                    jsonSerializer.WriteObject(stream, _newDebts);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Whoops becauase: {0}", e);
+            }
+        }
+    }

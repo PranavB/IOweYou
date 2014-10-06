@@ -1,0 +1,64 @@
+﻿<Page
+    x:Class="IOU.landing"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:IOU"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.BottomAppBar>
+        <CommandBar>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="help+about" x:Name="labelBtn" Click="labelBtn_Click"/>
+            </CommandBar.SecondaryCommands>
+            <AppBarButton Icon="Add" Label="add debt" x:Name="addNavBtn" Click="addNavBtn_Click"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="110"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="IOU" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock Name="initialLoadFlag" Visibility="Collapsed" Text="0" Tag="0"></TextBlock>
+            <TextBlock Text="all debts" Margin="0,-6.5,0,26.5" Style="{ThemeResource HeaderTextBlockStyle}" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}"/>
+        </StackPanel>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <Grid.Resources>
+                <DataTemplate x:Name="dataTemplate">
+                    <StackPanel Orientation="Vertical" Height="90"  Margin="0, 0, 0, 10" 
+                                Background="{ThemeResource PhoneAccentBrush}" >
+
+                       <TextBlock x:Name="NameTxtBlk" Text="{Binding name}"
+                                  TextWrapping="WrapWholeWords" Height="22" Margin="10, 10, 0, 0"
+                                  FontSize="19" TextAlignment="Left" FontWeight="ExtraLight" 
+                                  TextTrimming="WordEllipsis" IsTapEnabled="False" />
+
+                        <TextBlock Text="{Binding currency}" Margin="10, 4, 0, 0" TextTrimming="Clip"
+                                   TextAlignment="Left" FontSize="45" FontWeight="ExtraLight"
+                                   Height="50" HorizontalAlignment="Left" MaxWidth="265" />
+
+                       <Button Height="110" Margin="0, -95, -50, 0" 
+                               Name="deleteButton" Content="Clear"
+                               Command="{Binding deleteCommand}" HorizontalAlignment="Right"
+                               CommandParameter="{Binding}" BorderThickness="0" Width="20" HorizontalContentAlignment="Left" Padding="9.5,0,0,0" Opacity="0.6" Background="{ThemeResource PhoneBackgroundBrush}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Grid.Resources>
+            <ScrollViewer>
+                <ItemsControl x:Name="itemsControl" 
+                          ItemsSource="{Binding}" 
+                          ItemTemplate="{StaticResource dataTemplate}">
+                </ItemsControl>
+            </ScrollViewer>    
+        </Grid>
+    </Grid>
+</Page>
